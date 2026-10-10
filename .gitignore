@@ -36,6 +36,9 @@ yarn-error.log*
 # vercel
 .vercel
 
+# pre-encode video backups (re-encode with scripts if needed)
+/orig-videos-backup/
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts

@@ -1,8 +1,10 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Brand system: dark navy bg, green accent, white body text */
+  --background: #0a0e17;
+  --foreground: #ffffff;
+  --accent: #3af58c;
 }
 
 @theme inline {
@@ -12,15 +14,75 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+@theme inline {
+  --color-accent: var(--accent);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Film-grain overlay applied globally for cinematic texture.
+   Kept subtle: heavy blend modes over full-screen video tanks FPS,
+   which was making scrolling feel janky. */
+.grain::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  pointer-events: none;
+  opacity: 0.09;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Headings use the brand sans; Coolvetica can be swapped in later */
+h1,
+h2 {
+  font-family: var(--font-geist-sans), sans-serif;
+  letter-spacing: -0.02em;
+}
+
+/* Shared section eyebrow label ("MY STORY", "PROJECTS", etc.) */
+.eyebrow {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.35em;
+  color: var(--accent);
+}
+
+/* Subtle green text-glow for accent phrases */
+.text-glow {
+  text-shadow: 0 0 24px rgba(58, 245, 140, 0.45);
+}
+
+::selection {
+  background: rgba(58, 245, 140, 0.25);
+  color: #fff;
+}
+
+/* Lenis recommended styles */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+/* Accessibility: tone down motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
